@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage{thumbpdf}
+\usepackage[pdftex,
+        colorlinks=true,
+        urlcolor=rltblue,       % \href{...}{...} external (URL)
+        filecolor=rltgreen,     % \href{...} local file
+        linkcolor=rltred,       % \ref{...} and \pageref{...}
+        pdftitle={Phys 20 Lab 3},
+        pdfauthor={Chris Dudiak},
+        pdfproducer={pdfLaTeX},
+        pagebackref,
+        pdfpagemode=None,
+        bookmarksopen=true]{hyperref}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{placeins}
+\definecolor{rltred}{rgb}{0.75,0,0}
+\definecolor{rltgreen}{rgb}{0,0.5,0}
+\definecolor{rltblue}{rgb}{0,0,0.75}
+
+
+\begin{document}
+
+\title{Phys 20 Lab 3 - Numerical Solutions to ODEs: Spring Problem}
+\author{Chris Dudiak}
+\date{\today}
+\maketitle
+
+\section{Explicit Euler}
+\begin{verbatim}
+def springProp(z, h):
+    # loop over the lists simultaneously and compute new values
+    for i, (x, v) in enumerate(z):
+        if (i + 1 >= N):
+            break
+        z[i + 1] = (x + h * v, v - h * x)
+    return z
+\end{verbatim}
+This function sets the next values based on the old values. Using this function, the position and velocity are graphed vs time. For this set:
+\begin{align*}
+	x_0 &= 5.0\\
+	v_0 &= 0.0\\
+	h &= .01
+\end{align*}
+Unless otherwise stated. Plotting the propagation of the spring for 2000 steps, we get:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"explicit"}
+	\caption{Explicit Evaluation of Euler's Method on Spring}
+\end{figure} 
+
+\FloatBarrier
+\section{Analytical Solution}
+For the analytic solution of $a = {d^2x \over dt^2} = -x$ with the initial conditions above and ${k\over m}  = 1$:
+\begin{align*}
+	&x(t) = 5.0\cos(t)\\
+	&v(t) = -5.0\sin(t)\\
+\end{align*}
+Plotting the errors we find:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"errors"}
+	\caption{Explicit Evaluation of Euler's Method Errors from Analytic Solution}
+\end{figure} 
+\FloatBarrier
+As time increase, the maximum magnitude of the error in both position and velocity gets larger; this increase in maximum peaks is linear with time.
+
+\section{Truncation Errors}
+Using h = .0027, we see the following truncation errors:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"trunc"}
+	\caption{Explicit Evaluation of Euler's Method Truncation Errors on h}
+\end{figure} 
+\FloatBarrier
+
+As the value of h increases, the maximum error from the analytic solution increases proportionally as well. At extremely small h's, the error is almost 0.
+
+\section{Energy}
+Looking at Total Energy $E = v^2 + x^2$ as a function of time:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"energy"}
+	\caption{Explicit Evaluation of Euler's Method Energy}
+\end{figure} 
+\FloatBarrier
+We see that the energy is increasing linearly over time just like the maximum magnitude of the global errors. Eventually, this energy would go to 
+infinity rather than remain constant due to the errors in the floating point precision.
+
+\section{Implicit Euler}
+Solving the implicit solution, we can find:
+\begin{align*}
+	\begin{pmatrix}
+		x_{i + 1} \\
+		v_{i + 1}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		1 & -h \\
+		h & 1
+	\end{pmatrix} ^{-1}
+	\begin{pmatrix}
+		x_{i} \\
+		v_{i}
+	\end{pmatrix}
+\end{align*}
+Using this, we can calculate the global errors and energy as before:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"positionComp"}
+	\caption{Implicit and Explicit Euler's Method Position Errors}
+\end{figure} 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"velocityComp"}
+	\caption{Implicit and Explicit Euler's Method Velocity Errors}
+\end{figure} 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"energyComp"}
+	\caption{Implicit and Explicit Euler's Method Energy}
+\end{figure} 
+\FloatBarrier
+As we can see, the implicit errors are of the same form but perfectly mirror the explicit errors given that they are calculated from new values rather
+than old values. They evolve at the same rate though. The energies however go in opposite directions; the implicit energy tends to negative
+infinity rather than positive for the same reason.
+
+
+\section{Conservation of Energy}
+It has been a very busy week so I have not implemented the solutions to these problems, but I will discuss the results. 
+\subsection{Implicit and Explicit Phase-Space}
+Since the energy is not conserved in the implicit and explicit cases, they will not form complete circles in phase space. The explicit
+form, which tends to infinite energy, spirals outward, and the implicit solution, which tends to negative infinity spirals inward.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"ephase"}
+	\caption{Explicit Phase $v_0 = 0.0, d_0 = 5.0$: Spirals Out}
+\end{figure} 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"iphase"}
+	\caption{Implicit Phase $v_0 = 0.0, d_0 = 5.0$: Spirals In}
+\end{figure} 
+\FloatBarrier
+
+\subsection{Symplectic Euler}
+
+The Symplectic Euler method uses:
+\begin{align*}
+	&x_{i+1} = x_i + h v_i\\
+	&v_{i+1} = v_i - h x_{i+1}\\
+\end{align*}
+
+This is generated by the following code:
+\begin{verbatim}
+def springSymp(z, h):
+    # loop over the lists simultaneously and compute new values
+    for i, (x, v) in enumerate(z):
+        if (i + 1 >= N):
+            break
+        x_next = x + h * v
+        z[i + 1] = (x_next, v - h * x_next)
+    return z
+\end{verbatim}
+
+Since energy is now conserved much better, this creates circles in phase space rather than spirals:
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"sphase"}
+	\caption{Symplectic Phase $v_0 = 0.0, d_0 = 5.0$: Energy Conserved}
+\end{figure} 
+\FloatBarrier
+ 
+ \subsection{Symplectic Energy}
+Looking at the energy evolution of the Symplectic Euler, we find: 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.5]{"symenergy"}
+	\caption{Symplectic Energy $v_0 = 0.0, d_0 = 5.0$: Energy Oscillates}
+\end{figure} 
+\FloatBarrier
+
+Rather than remaining perfectly constant, the energy oscillates sinusoidally. Unlike the implicit and explicit methods, it does not go
+to infinity over time. The maximum energy deviation is about .05\% of the initial total energy, which is a small variation.
+
+\end{document}
