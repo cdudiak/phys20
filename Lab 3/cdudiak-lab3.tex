@@ -65,7 +65,8 @@ Plotting the errors we find:
 	\caption{Explicit Evaluation of Euler's Method Errors from Analytic Solution}
 \end{figure} 
 \FloatBarrier
-As time increase, the maximum magnitude of the error in both position and velocity gets larger; this increase in maximum peaks is linear with time.
+As time increase, the maximum magnitude of the error in both position and velocity gets larger; this increase in maximum peaks is faster than linear 
+with time.
 
 \section{Truncation Errors}
 Using h = .0027, we see the following truncation errors:
@@ -76,7 +77,8 @@ Using h = .0027, we see the following truncation errors:
 \end{figure} 
 \FloatBarrier
 
-As the value of h increases, the maximum error from the analytic solution increases proportionally as well. At extremely small h's, the error is almost 0.
+As the value of h increases, the maximum error from the analytic solution increases as well. At extremely small h's, the error is almost 0 as far as the
+floating point values can detect. The error grows quadratically as h increases though.
 
 \section{Energy}
 Looking at Total Energy $E = v^2 + x^2$ as a function of time:
@@ -86,8 +88,9 @@ Looking at Total Energy $E = v^2 + x^2$ as a function of time:
 	\caption{Explicit Evaluation of Euler's Method Energy}
 \end{figure} 
 \FloatBarrier
-We see that the energy is increasing linearly over time just like the maximum magnitude of the global errors. Eventually, this energy would go to 
-infinity rather than remain constant due to the errors in the floating point precision.
+We see that the energy is increasing quadratically over time just like the maximum magnitude of the global errors. Eventually, this energy would go to 
+infinity rather than remain constant due to the errors in the floating point precision. At small values of h, the energy could remain near 25 as expected,
+but the error would probably still propagate forward over time and build on itself.
 
 \section{Implicit Euler}
 Solving the implicit solution, we can find:
@@ -123,16 +126,16 @@ Using this, we can calculate the global errors and energy as before:
 	\caption{Implicit and Explicit Euler's Method Energy}
 \end{figure} 
 \FloatBarrier
-As we can see, the implicit errors are of the same form but perfectly mirror the explicit errors given that they are calculated from new values rather
-than old values. They evolve at the same rate though. The energies however go in opposite directions; the implicit energy tends to negative
-infinity rather than positive for the same reason.
+As we can see, the implicit errors are of the same form but mirror the explicit errors given that they are calculated from new values rather
+than old values. They evolve similarly although the peaks for the explicit errors are increasing faster as they are unbounded. The energies
+however go in opposite directions; the implicit energy tends to zero rather than positive infinity for the same reason. The energy is expressed as 
+$v^2 + x^2$ so the implicit energy decays to zero but the explicit blows up indefinitely to infinity.
 
 
-\section{Conservation of Energy}
-It has been a very busy week so I have not implemented the solutions to these problems, but I will discuss the results. 
+\section{Conservation of Energy}\ 
 \subsection{Implicit and Explicit Phase-Space}
 Since the energy is not conserved in the implicit and explicit cases, they will not form complete circles in phase space. The explicit
-form, which tends to infinite energy, spirals outward, and the implicit solution, which tends to negative infinity spirals inward.
+form, which tends to infinite energy, spirals outward, and the implicit solution, which tends to zero spirals inward.
 
 \begin{figure}[h!]
 	\centering
@@ -170,9 +173,13 @@ Since energy is now conserved much better, this creates circles in phase space r
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=.5]{"sphase"}
-	\caption{Symplectic Phase $v_0 = 0.0, d_0 = 5.0$: Energy Conserved}
+	\caption{Symplectic Phase $v_0 = 0.0, d_0 = 5.0$, h = .5: Energy Conserved}
 \end{figure} 
 \FloatBarrier
+
+We see that the two curves agree at the initial conditions but that the symplectic phase is slightly askew from the exact result. At points it
+has lower energy and at points higher energy. If we varied the initial conditions, we would expect both to still agree at those points but the oscillations
+could vary in magnitude based on the initial conditions and expected total energy.
  
  \subsection{Symplectic Energy}
 Looking at the energy evolution of the Symplectic Euler, we find: 

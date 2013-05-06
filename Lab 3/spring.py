@@ -10,7 +10,7 @@ import sys
 import matplotlib.pyplot as plt
 
 # global constants
-N = 2000
+N = 4000
 
 # explicit Euler method
 def spring(show, x0, v0):
@@ -160,23 +160,35 @@ def spring(show, x0, v0):
     fig.savefig("energyComp.png")
     
     # symplectic Euler
+    h = .5
+    ts = np.arange(0, N) * h
     z = z0[:]
     springSymp(z, h)
     # unzip the lists back to x, v
     (xsSym, vsSym) = zip(*z)
-    # plot the values
+    # analytic
+    xE = 5.0 * np.cos(ts)
+    vE = -5.0 * np.sin(ts)
+    # plot the values alongside analytic
     fig = plt.figure()
-    plt.plot(xsSym, vsSym)
+    plt.plot(xsSym, vsSym, label="Symplectic Phase")
+    plt.plot(xE, vE, label="Exact Phase")
     title = "Symplectic Phase Space"
     plt.title(title)
     plt.xlabel("Position")
     plt.ylabel("Velocity")
+    plt.legend()
     if show:
         plt.show()
     fig.savefig("sphase.png")
     
     # symplectic Euler energy
+    h = .01
     ts = np.arange(0, N) * h
+    z = z0[:]
+    springSymp(z, h)
+    # unzip the lists back to x, v
+    (xsSym, vsSym) = zip(*z)
     energySymp = map(lambda x, v: x**2 + v**2, xsSym, vsSym)
     # plot energy
     fig = plt.figure()
@@ -215,7 +227,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 4 and len(sys.argv) != 2:
         print "usage: %s bool_to_show_plot(0 or 1) [x0 v0]" % sys.argv[0]
         sys.exit(1)
-    elif len(sys.argv) == 3:
+    elif len(sys.argv) == 4:
         spring(int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]))
     else:
         spring(int(sys.argv[1]), 5.0, 0.0)
