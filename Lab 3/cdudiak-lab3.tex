@@ -88,9 +88,9 @@ Looking at Total Energy $E = v^2 + x^2$ as a function of time:
 	\caption{Explicit Evaluation of Euler's Method Energy}
 \end{figure} 
 \FloatBarrier
-We see that the energy is increasing quadratically over time just like the maximum magnitude of the global errors. Eventually, this energy would go to 
-infinity rather than remain constant due to the errors in the floating point precision. At small values of h, the energy could remain near 25 as expected,
-but the error would probably still propagate forward over time and build on itself.
+We see that the energy is increasing quadratically over time due to the squares in the position and velocities, which grow linearly. Eventually, this energy
+would go to infinity rather than remain constant due to the errors in the floating point precision. At small values of h, the energy could remain near 25 
+as expected, but the error would probably still propagate forward over time and build on itself.
 
 \section{Implicit Euler}
 Solving the implicit solution, we can find:
