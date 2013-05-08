@@ -201,6 +201,8 @@ def spring(show, x0, v0):
         plt.show()
     fig.savefig("symenergy.png")
     
+    print "Successfully Ran Script"
+    
     
 # Takes a zipped list z and a step h and calculates all the new values for the system.
 def springProp(z, h):
@@ -228,6 +230,8 @@ if __name__ == "__main__":
         print "usage: %s bool_to_show_plot(0 or 1) [x0 v0]" % sys.argv[0]
         sys.exit(1)
     elif len(sys.argv) == 4:
+        print "Using initial conditions: x0 = %s, v0 = %s" % (sys.argv[2], sys.argv[3])
         spring(int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]))
     else:
+        print "Using default initial conditions: x0 = 5, v0 = 0"
         spring(int(sys.argv[1]), 5.0, 0.0)

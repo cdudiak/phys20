@@ -1,5 +1,4 @@
 \documentclass{article}
-\usepackage{thumbpdf}
 \usepackage[pdftex,
         colorlinks=true,
         urlcolor=rltblue,       % \href{...}{...} external (URL)
@@ -15,6 +14,8 @@
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{placeins}
+\usepackage{listings}
+\usepackage{verbatim}
 \definecolor{rltred}{rgb}{0.75,0,0}
 \definecolor{rltgreen}{rgb}{0,0.5,0}
 \definecolor{rltblue}{rgb}{0,0,0.75}
@@ -181,7 +182,7 @@ We see that the two curves agree at the initial conditions but that the symplect
 has lower energy and at points higher energy. If we varied the initial conditions, we would expect both to still agree at those points but the oscillations
 could vary in magnitude based on the initial conditions and expected total energy.
  
- \subsection{Symplectic Energy}
+\subsection{Symplectic Energy}
 Looking at the energy evolution of the Symplectic Euler, we find: 
 \begin{figure}[h!]
 	\centering
@@ -192,5 +193,14 @@ Looking at the energy evolution of the Symplectic Euler, we find:
 
 Rather than remaining perfectly constant, the energy oscillates sinusoidally. Unlike the implicit and explicit methods, it does not go
 to infinity over time. The maximum energy deviation is about .05\% of the initial total energy, which is a small variation.
+
+\section{Code and Info}
+\subsection{Output}
+The program reports the following:
+\verbatiminput{output.txt}
+
+\subsection{Code}
+Code for this week's set:
+\lstinputlisting[language=Python]{spring.py}
 
 \end{document}

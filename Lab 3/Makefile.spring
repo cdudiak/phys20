@@ -1,0 +1,11 @@
+# Makefile for Lab 3
+all: cdudiak-lab3.tex 
+
+cdudiak-lab3.tex:	spring.code
+	pdflatex $@
+
+spring.code:
+	python spring.py 0 > output.txt
+
+clean:
+	rm -f cdudiak-lab3.aux cdudiak-lab3.out cdudiak-lab3.log
