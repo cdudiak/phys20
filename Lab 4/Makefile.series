@@ -1,0 +1,11 @@
+# Makefile for Lab 4
+all: cdudiak-lab4.tex 
+
+cdudiak-lab4.tex:	series.pdf
+	pdflatex $@
+
+series.pdf:
+
+
+clean:
+	rm -f cdudiak-lab4.aux cdudiak-lab4.out cdudiak-lab4.log
