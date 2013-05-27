@@ -1,0 +1,11 @@
+# Makefile for Lab 5
+all: cdudiak-lab5.tex 
+
+cdudiak-lab5.tex:	grapefruit.pdf
+	pdflatex $@
+
+grapefruit.pdf:
+
+
+clean:
+	rm -f cdudiak-lab5.aux cdudiak-lab5.out cdudiak-lab5.log
