@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[pdftex,
+        colorlinks=true,
+        urlcolor=rltblue,       % \href{...}{...} external (URL)
+        filecolor=rltgreen,     % \href{...} local file
+        linkcolor=rltred,       % \ref{...} and \pageref{...}
+        pdftitle={Phys 20 Lab 6},
+        pdfauthor={Chris Dudiak},
+        pdfproducer={pdfLaTeX},
+        pagebackref,
+        pdfpagemode=None,
+        bookmarksopen=true]{hyperref}
+\usepackage{color}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{placeins}
+\usepackage{listings}
+\usepackage{verbatim}
+\definecolor{rltred}{rgb}{0.75,0,0}
+\definecolor{rltgreen}{rgb}{0,0.5,0}
+\definecolor{rltblue}{rgb}{0,0,0.75}
+
+
+\begin{document}
+
+\title{Phys 20 Lab 6 - Root Finding}
+\author{Chris Dudiak}
+\date{\today}
+\maketitle
+
+\section{Part 1 - Golden Ratio Convergence of Secant Method}
+
+Within a small distance $\epsilon$ of x, the function is approximately:
+\begin{align*}
+	f(x + \epsilon) = f(x) + \epsilon f'(x) + \epsilon^2 {f''(x) \over 2} + ...
+\end{align*}
+
+Evaluating at $x_1$ and $x_2$ and plugging into the step relation for the Secant Method
+\begin{align*}
+	f(x_3) = x_2 - f(x_2) {x_2 - x_1 \over f(x_2) - f(x_1)}
+\end{align*}
+
+we get the following:
+
+
+\section{Code and Info}
+
+
+\end{document}
