@@ -43,8 +43,75 @@ Evaluating at $x_1$ and $x_2$ and plugging into the step relation for the Secant
 
 we get the following:
 
+\begin{align*}
+	f(\epsilon_3) = \epsilon_2 - f(x_2) {\epsilon_2 - \epsilon_1 \over f(x_2) - f(x_1)}
+\end{align*}
+
+When a trial solution $x_i$ differs from the true root by $\epsilon$ we get:
+
+\begin{align*}
+	\epsilon_3 = \epsilon_2 - f(x_2 + \epsilon) {\epsilon_2 - \epsilon_1 \over f(x_2 + \epsilon_2) - f(x_1 + \epsilon)}
+\end{align*}
+
+Since $f(x_i)$ is zero, we get an approximation (neglecting higher order terms):
+\begin{align*}
+	f(x_i + \epsilon_i) \approx  \epsilon_2 f'(x_i) + \epsilon_i^2 {f''(x_i) \over 2} 
+\end{align*}
+
+Plugging this in, we get:
+
+\begin{align*}
+	\epsilon_3 \approx \epsilon_2 - (\epsilon_2 f'(x_2) + \epsilon_2^2 {f''(x_2) \over 2})  {\epsilon_2 - \epsilon \over \epsilon_2 f'(x_2) + \epsilon_2^2 
+	{f''(x_2)  \over 2}  - \epsilon f'(x_1) + \epsilon^2 {f''(x_1) \over 2} }
+\end{align*}
+
+Simplifying the denominator, we find:
+\begin{align*}
+	f(x_2 + \epsilon_2) - f(x_1 + \epsilon) &\approx \epsilon_2 f'(x_2) + \epsilon_2^2 {f''(x_2)  \over 2}  - \epsilon f'(x_1) - \epsilon^2 {f''(x_1) \over 2} \\
+	&\approx f'(x_2) * (\epsilon_2 - \epsilon) * (1 + {f''(x_2) \over 2f'(x_2)} (\epsilon_2 + \epsilon))
+\end{align*}
+
+Which gives: 
+
+\begin{align*}
+	\epsilon_3 &= \epsilon_2 - {(\epsilon_2) * (\epsilon_2  - \epsilon) * ( f'(x_2) + \epsilon_2 f''(x_2)) \over 
+						f'(x_2) * (\epsilon_2 - \epsilon) * (1 + {f''(x_2) \over 2f'(x_2)} (\epsilon_2 + \epsilon))} \\
+			&=  \epsilon_2 - {(\epsilon_2) * (1 + \epsilon_2 {f''(x_2) \over f'(x_2)}) \over 
+						(1 + {f''(x_2) \over 2f'(x_2)} (\epsilon_2 + \epsilon))} \\
+			&= {\epsilon_2 (1 + {f''(x_2) \over 2f'(x_2)} (\epsilon_2 + \epsilon)) - (\epsilon_2) (1 + \epsilon_2 {f''(x_2) \over f'(x_2)}) \over 
+						(1 + {f''(x_2) \over 2f'(x_2)} (\epsilon_2 + \epsilon))} \\
+			&= {\epsilon_2  \epsilon {f''(x_2) \over 2f'(x_2)}  \over 
+						(1 + {f''(x_2) \over 2f'(x_2)} (\epsilon_2 + \epsilon))} \\
+			&\approx \epsilon_2  \epsilon {f''(x_2) \over 2f'(x_2)}
+\end{align*}
+
+Now, assume $\epsilon_{i+1} = C \epsilon_i ^ r$ for all i where C and r are constants independent of i. Plugging this into the recurrence, we find:
+
+\begin{align*}
+	C \epsilon_2 ^ r &\approx \epsilon_2  \epsilon {f''(x_2) \over 2f'(x_2)} \\
+	\epsilon_2	 ^ {r-1} &\approx \epsilon {f''(x_2) \over 2Cf'(x_2)} \\
+	\epsilon_2	 &\approx \epsilon ^ {1 \over r-1} {f''(x_2) \over 2Cf'(x_2)}^ {1 \over r-1} \\
+\end{align*}
+
+So $C = {f''(x_2) \over 2Cf'(x_2)}^ {1 \over r-1}$ and $r = {1 \over r - 1}$ from the assumption. Solving for the positive r, we find the convergence rate is:
+
+\begin{align*}
+	r &= {1 \over r - 1} \\
+	r^2 - r - 1&= 0 \\
+	r &= {1 + \sqrt5 \over 2}
+\end{align*}
+
+Which is the Golden Ratio.
+
+\section{Method Implementations}
 
 \section{Code and Info}
+
+\subsection{Output}
+The program outputs the following:
+% \verbatiminput{output.txt}
+
+\subsection{Code}
 
 
 \end{document}
