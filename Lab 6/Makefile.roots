@@ -5,7 +5,7 @@ cdudiak-lab6.tex:	roots.code
 	pdflatex $@
 
 roots.code:
-	python roots.py > output.txt
+	python roots.py 0 > output.txt
 
 clean:
 	rm -f cdudiak-lab6.aux cdudiak-lab6.out cdudiak-lab6.log
