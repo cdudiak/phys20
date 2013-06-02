@@ -104,6 +104,100 @@ So $C = {f''(x_2) \over 2Cf'(x_2)}^ {1 \over r-1}$ and $r = {1 \over r - 1}$ fro
 Which is the Golden Ratio.
 
 \section{Method Implementations}
+The following is the code for the three method implementations:
+
+\begin{verbatim}
+def bisection(f, x1, x2):
+    acc = abs(x1 - x2)
+    steps = []
+    x0 = (x1 + x2) / 2.0
+    while acc > precision:
+        x0 = (x1 + x2) / 2.0
+        guess = f(x0)
+        if sign(guess) == sign(f(x1)):
+            x1 = x0
+        else:
+            x2 = x0
+        acc = abs(x1 - x2)
+        steps.append(guess)
+    return (x0, steps)
+\end{verbatim}
+
+\begin{verbatim}
+def newtonRaphson(f, fp, x1):
+    guess = f(x1)
+    steps = [guess]
+    x2 = x1
+    while abs(guess) > precision:
+        x2 = x1 - guess / fp(x1)
+        guess = f(x2)
+        x1 = x2
+        steps.append(guess)
+    return (x2, steps)
+\end{verbatim}
+
+\begin{verbatim}
+def secant(f, x1, x2):
+    guess = f(x2)
+    prev = f(x1)
+    steps = [guess]
+    while abs(guess) > precision:
+        next = x2 - guess * (x2 - x1) / (guess - prev)
+        prev = guess
+        guess = f(next)
+        steps.append(guess)
+        x1 = x2
+        x2 = next
+    return (x2, steps)
+\end{verbatim}
+
+Using these methods, we plot the convergence rates of Sin(x) - .76:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"convergence"}
+	\caption{Convergence Rates of the Above Methods}
+\end{figure} 
+\FloatBarrier
+
+We see that the bisection method is linear, Newton is quadratic, and Secant lies in the middle at the Golden Ratio.
+
+\section{Orbit}
+
+Using the Newton-Raphson Method (since the derivative is easy to calculate), we get the following orbital curve:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"orbit"}
+	\caption{Orbit of the Hulse-Taylor Pulsar}
+\end{figure} 
+\FloatBarrier
+
+\section{Velocity Curve}
+
+By trial and error of varying the phase, we get the following velocity curve using a $\Delta$t of .001:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"velocity"}
+	\caption{Velocity Curve of the Hulse-Taylor Pulsar}
+\end{figure} 
+\FloatBarrier
+
+The above graph agrees with the 1975 diagram provided using a $\phi = - {\pi \over 2}$.
+
+\section{Orbit in Mathematica}
+
+Using Mathematica's FindRoot function, we get the following plot for the orbit:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=.6]{"orbitMath"}
+	\caption{Orbit of the Hulse-Taylor Pulsar Using Mathematica}
+\end{figure} 
+\FloatBarrier
+
+which agrees perfectly with the orbit found in Python using my Newton-Raphson function.
 
 \section{Code and Info}
 
@@ -112,6 +206,8 @@ The program outputs the following:
 \verbatiminput{output.txt}
 
 \subsection{Code}
+Code for this week's set in Python and Appended Mathematica Code as a PDF:
+\lstinputlisting[language=Python]{roots.py}
 
-
+\includepdf[pages={1}]{orbitCalc.pdf}
 \end{document}
